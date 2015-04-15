@@ -8,11 +8,10 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-import net.mcarolan.whenzebus.api.Prediction;
-import net.mcarolan.whenzebus.api.PredictionParser;
-import net.mcarolan.whenzebus.api.PredictionResponseParser;
-import net.mcarolan.whenzebus.api.predictionfield.PredictionField;
-import net.mcarolan.whenzebus.api.predictionfield.PredictionFields;
+import net.mcarolan.whenzebus.api.Response;
+import net.mcarolan.whenzebus.api.ResponseParser;
+import net.mcarolan.whenzebus.api.field.Field;
+import net.mcarolan.whenzebus.api.field.Fields;
 import android.test.AndroidTestCase;
 
 public class PredictionResponseParserTest extends AndroidTestCase {
@@ -29,30 +28,30 @@ public class PredictionResponseParserTest extends AndroidTestCase {
 			"[1,\"25\",\"Oxford Circus\",1428139452000,1428139452000]\n" +
 			"[1,\"8\",\"Tottenham Ct Rd\",1428139682000,1428139682000]";
 
-	final Set<PredictionField> fields = Sets.newHashSet(PredictionFields.DestinationText, PredictionFields.LineName, PredictionFields.EstimatedTime, PredictionFields.ExpireTime);
+	final Set<Field> fields = Sets.newHashSet(Fields.DestinationText, Fields.LineName, Fields.EstimatedTime, Fields.ExpireTime);
 	
 	public void test_parse_valid_response() {
-		final PredictionResponseParser predictionParser = new PredictionResponseParser(response, new PredictionParser());
-		predictionParser.extractPredictions(fields);
+		final ResponseParser predictionParser = new ResponseParser(response);
+		predictionParser.extractResponses(fields);
 	}
 	
 	public void test_parse_valid_response_size() {
-		final PredictionResponseParser predictionParser = new PredictionResponseParser(response, new PredictionParser());
-		final Set<Prediction> predictions = predictionParser.extractPredictions(fields);
+		final ResponseParser predictionParser = new ResponseParser(response);
+		final Set<Response> predictions = predictionParser.extractResponses(fields);
 		Assert.assertEquals(10, predictions.size());
 	}
 
 	public void test_parse_valid_response_contains_element() {
-		final PredictionResponseParser predictionParser = new PredictionResponseParser(response, new PredictionParser());
-		final Set<Prediction> predictions = predictionParser.extractPredictions(fields);
-		final ImmutableMap.Builder<PredictionField, String> builder = ImmutableMap.builder();
+		final ResponseParser predictionParser = new ResponseParser(response);
+		final Set<Response> predictions = predictionParser.extractResponses(fields);
+		final ImmutableMap.Builder<Field, String> builder = ImmutableMap.builder();
 		
-		builder.put(PredictionFields.LineName, "242");
-		builder.put(PredictionFields.DestinationText, "Tottenham Ct Rd");
-		builder.put(PredictionFields.EstimatedTime, "1428138627000");
-		builder.put(PredictionFields.ExpireTime, "1428138627000");
+		builder.put(Fields.LineName, "242");
+		builder.put(Fields.DestinationText, "Tottenham Ct Rd");
+		builder.put(Fields.EstimatedTime, "1428138627000");
+		builder.put(Fields.ExpireTime, "1428138627000");
 		
-		final Map<PredictionField, String> fieldNameToValues = builder.build();
-		Assert.assertTrue(predictions.contains(new Prediction(fieldNameToValues)));
+		final Map<Field, String> fieldNameToValues = builder.build();
+		Assert.assertTrue(predictions.contains(new Response(fieldNameToValues)));
 	}
 }

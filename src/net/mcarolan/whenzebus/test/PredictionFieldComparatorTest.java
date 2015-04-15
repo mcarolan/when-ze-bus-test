@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import junit.framework.Assert;
 
-import net.mcarolan.whenzebus.api.predictionfield.PredictionField;
-import net.mcarolan.whenzebus.api.predictionfield.PredictionFieldComparator;
-import net.mcarolan.whenzebus.api.predictionfield.PredictionFields;
+import net.mcarolan.whenzebus.api.field.Field;
+import net.mcarolan.whenzebus.api.field.FieldComparator;
+import net.mcarolan.whenzebus.api.field.Fields;
 
 import com.google.common.collect.Lists;
 
@@ -17,9 +17,9 @@ public class PredictionFieldComparatorTest {
 	
 	@Test
 	public void destination_text_before_destination_name() {
-		final ArrayList<? extends PredictionField> fields = Lists.newArrayList(PredictionFields.DestinationName, PredictionFields.DestinationText);
-		Collections.sort(fields, new PredictionFieldComparator());
-		Assert.assertEquals(Lists.newArrayList(PredictionFields.DestinationText, PredictionFields.DestinationName), fields);
+		final ArrayList<? extends Field> fields = Lists.newArrayList(Fields.DestinationName, Fields.DestinationText);
+		Collections.sort(fields, new FieldComparator());
+		Assert.assertEquals(Lists.newArrayList(Fields.DestinationText, Fields.DestinationName), fields);
 	}
 
 }
